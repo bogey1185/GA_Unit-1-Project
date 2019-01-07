@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
@@ -6,9 +6,121 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.2/velocity.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.2/velocity.ui.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky|Seymour+One" rel="stylesheet">
 </head>
 <body>
 
+	<div id="wrap-gameboard">
+		
+		<main>  <!--main board area-->
+			
+			<header>
+				<div id="instructions-box">
+					<div id="instructions">How to Play</div>
+				</div>
+				<div id="title-box">
+					<div id="title">FaRkle</div>
+				</div>
+			</header>
+			<section id="main-area">
+				<div id="left-aside"></div>
+				<div id="gameboard">
+					<div id="main-board">
+						<div id="save-dice">
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+						</div>
+						<div id="rolled-dice">
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+							<div class="dice"></div>
+						</div>
+					</div>
+					<div id="message">Player 1's turn!</div>	
+					<div id="UI">
+						<div id="curr-score">Turn Score: <span id="turnSc">0</span></div>
+						<div id="controls">
+								<div id="inner-roll">Roll</div>
+							<div>End Turn</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</main>
+
+		<aside>	<!--side area with scoreboard and scoring legend. -->
+
+			<div id="scoreboard">
+				<div id="scoreboard-title">Leaderboard</div>
+				<div id="score">
+
+					<p>Player 1: <span id="score1">0</span></p>
+					<p>Player 2: <span id="score2">0</span></p>
+					<p>Player 3: <span id="score3">0</span></p>
+					<p>Player 4: <span id="score4">0</span></p>
+
+				</div>
+			</div>
+			<div id="legend">
+				<div id="score-title">How to Score</div>
+				<div id="score-legend1">
+					<div class="score-names">
+					
+						<p>Ones:</p>
+						<p>Fives:</p>
+						<p>3 Twos:</p>
+						<p>3 Threes:</p>
+						<p>3 Fours:</p>
+						<p>3 Fives:</p>
+						<p>3 Sixes:</p>
+						
+					</div>
+					<div class="score-nums">
+						
+						<p>100</p>
+						<p>50</p>
+						<p>200</p>
+						<p>300</p>
+						<p>400</p>
+						<p>500</p>
+						<p>600</p>
+
+					</div>
+				</div>
+				<div id="divider"></div>
+				<div id="score-legend2">
+					<div class="score-names">
+					
+						<p>4 of a kind:</p>
+						<p>5 of a kind:</p>
+						<p>6 of a kind:</p>
+						<p>Straight:</p>
+						<p>3 Pairs:</p>
+						<p>2 Triplets:</p>
+						
+					</div>
+					<div class="score-nums">
+						
+						<p>1000</p>
+						<p>2000</p>
+						<p>3000</p>
+						<p>1500</p>
+						<p>1500</p>
+						<p>2500</p>
+
+					</div>
+				</div>
+			</div>
+		</aside>
+	</div>
 
 	<script type="text/javascript" src="js/app.js"></script>
 </body>

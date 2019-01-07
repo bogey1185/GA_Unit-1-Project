@@ -1,0 +1,310 @@
+/*custom fonts
+ font-family: 'Seymour One', sans-serif;
+ font-family: 'Fontdiner Swanky', cursive;
+
+*/
+body {
+	margin: 0;
+}
+
+#wrap-gameboard {
+	display: flex;
+	background-color: rgb(130,25,54);
+}
+
+main {
+	width: 80vw;
+	height: 100vh;
+}
+
+main header {
+	width: 100%;
+	height: 16vh;
+	display: flex;
+	flex-direction: row;
+	align-content: flex-start;
+	justify-content: center;
+	margin: 2px;
+}
+
+#instructions-box {
+	width: 19.5vw;
+	min-width: 189.8px; 
+	height: 98%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#title-box {
+	width: 59.5vw;
+	height: 98%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#instructions {
+	border: 2px solid white;
+	font-family: "Fontdiner Swanky", cursive;
+	padding: 3%;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(255, 153, 0);
+}
+
+#title {
+	font-size: 4em;
+	font-family: "Fontdiner Swanky", cursive;
+	border: 2px solid white;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(255, 153, 0);
+	padding: 1% 1% 0 1%;
+}
+
+#main-area {
+	width: 100%;
+	height: 84vh;
+	display: flex;
+	justify-content: flex-start;
+}
+
+#left-aside {
+	width: 20vw;
+	min-width: 189.8px; 
+	height: 98%;
+}
+
+#gameboard {
+	width: 60vw;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	min-width: 550px; 
+}
+
+#main-board {
+	width: 95%;
+	height: 55%;
+	border-left: 10px solid white;
+	border-right: 10px solid white;
+	border-top: 10px solid white;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+	background-color: rgb(51, 51, 51);
+	display: flex;
+	flex-direction: column;
+}
+
+#save-dice {
+	height: 50%;
+	width: 100%;
+	border-bottom: 1px solid white;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+#rolled-dice {
+	height: 50%;
+	width: 100%;
+	border-top: 1px solid white;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.dice {
+	height: 50%;
+	width: 12.5%;
+	border: 2px solid white;
+	border-radius: 10px;
+}
+
+#message {
+	width: 99.5%;
+	height: 10%; 
+	font-family: "Fontdiner Swanky", cursive;
+	font-size: 2.5em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	border: 2px solid white;
+	border-radius: 10px;
+	background-color: rgb(255, 153, 0); 
+}
+
+#UI {
+	width: 98%;
+	height: 35%;
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;	
+	align-items: center;
+	padding-bottom: 3%;
+}
+
+#curr-score {
+	height: 10%;
+	width: 33%;
+	font-family: 'Seymour One', sans-serif;
+	font-size: .9em;
+	border-bottom: 2px solid white;
+	border-right: 2px solid white;
+	border-left: 2px solid white;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	text-align: center;
+	color: white; 
+	padding: .5% 0 0 0;
+}
+
+#controls {
+	padding-bottom: 2%;
+	display: flex;
+	width: 100%;
+	height: 89%;
+	justify-content: center;
+	align-items: center;
+}
+
+#controls div {
+	font-family: 'Seymour One', sans-serif;
+	font-size: 3.5em;
+	border: 2px solid white;
+	width: 40%;
+	height: 80%;
+	text-align: center;
+	margin: 0 auto;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(255, 153, 0); 
+}
+
+#inner-roll {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+aside {
+	width: 20vw;
+	min-width: 239.8px;  
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+aside div {
+	font-family: "Fontdiner Swanky", cursive;
+	margin: 0;
+}
+
+#scoreboard {
+	height: 25vh;
+	width: 60%;
+}
+
+#scoreboard-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 20%;
+	background-color: rgb(255, 153, 0);
+	border-radius: 10px;
+	border-left: 2px solid white;
+	border-top: 2px solid white;
+	border-right: 2px solid white;
+	font-size: 1.2em;
+	color: white;
+}
+
+#score {
+	height: 78%;
+	background-color: rgb(255, 153, 0);
+	border:	2px solid white;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	padding: 10% 0 10% 5%;
+	color: white;
+}
+
+#score p {
+	margin: 0;
+}
+
+#legend {
+	margin: 0;
+	width: 60%;
+}
+
+#score-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	height: 20%;
+	background-color: rgb(255, 153, 0);
+	border-radius: 10px;
+	border-left: 2px solid white;
+	border-top: 2px solid white;
+	border-right: 2px solid white;
+	font-size: 1.2em;
+	color: white;
+}
+
+#score-legend1 {
+	background-color: rgb(255, 153, 0);
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-top: 2px solid white;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	display: flex;	
+	justify-content: space-evenly;
+	color: white;
+}
+
+.score-names, .score-nums {
+	text-align: right;
+	padding: 3% 0;
+}
+
+#divider {
+	height: .75vh;
+	width: 100%;
+	background-color: white;
+}
+
+#score-legend2 {
+	background-color: rgb(255, 153, 0);
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+	border-bottom: 2px solid white;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	display: flex;	
+	justify-content: space-evenly;
+	color: white;
+}
+
+#score-legend1 p, #score-legend2 p {
+	margin: 0;
+	font-size: .7em;
+}
+
