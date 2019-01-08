@@ -57,7 +57,7 @@ main header {
 	background-color: rgb(255, 153, 0);
 }
 
-#intructions-text {
+#instructions-text {
 	position: fixed;
 	top: 100px;
 	left: 100px;
@@ -397,10 +397,11 @@ aside div {
 	margin: 0;
 }
 
-
-
-
-
+.dice img {
+	border-radius: 10px;
+	height: 86px;
+	width: 86px;
+}
 
 
 
