@@ -35,7 +35,8 @@ const game = {
 	],
 	diceIn: 6,				//as dice are removed from play, this number is lowered.
 	playerCounter: null,	//tracks what player's turn it is
-	players: [],			//array holding players created by player class 			
+	players: [],			//array holding players created by player class 
+	turnScore: 0,			
 	rollDice() {
 		this.clearInPlayDice();				//clears board of in play dice before each roll
 		for (let i = 0; i < this.diceIn; i++) {				//rolls dice
@@ -67,7 +68,7 @@ const game = {
 	startGame(numPlayers) {
 		for (let i = 1; i <= numPlayers; i++) {		//creates players -- button press at beginning will pass num of players
 			this.players.push(new Player(`${i}`));
-			$('#score').append(`<p>${this.players[i-1].name}: <span id="score${i}">0</span></p>`); //adds a place for each player on leaderboard
+			$('#score').append(`<p>${this.players[i-1].name}: <span id="score-${i}">0</span></p>`); //adds a place for each player on leaderboard
 		}
 		this.playerCounter = 1; //game state (ie whose turn it is) will be controlled by playerCounter. Once game is initialized, the counter is set to 1 to denote it is player 1's turn.
 		this.messageGen('player');
@@ -79,11 +80,34 @@ const game = {
 		this.clearInPlayDice();
 		$('#score').empty();
 	},
+	resetTurn() {
+		this.diceIn = 6;
+		this.clearInPlayDice();
+		this.clearBankDice();
+		this.turnScore = 0;
+		$('#turnSc').text('0');
+	},
 	messageGen(input) {
 		if (input === 'player') {
 			let currentPlayer = this.playerCounter - 1;
 			let playerName = this.players[currentPlayer].name;
 			$('#message').text(`It's ${playerName}'s turn!`);
+		}
+	},
+	nextTurn() {
+		let currentPlayer = this.players[this.playerCounter - 1];
+		if (this.playerCounter === this.players.length) {
+			currentPlayer.score += this.turnScore;
+			$(`#score-${this.playerCounter}`).text(`${this.players[this.playerCounter - 1].score}`);
+			this.resetTurn();
+			this.playerCounter = 1;
+			this.messageGen('player');
+		} else {
+			this.players[this.playerCounter - 1].score += this.turnScore;
+			$(`#score-${this.playerCounter}`).text(`${this.players[this.playerCounter - 1].score}`);
+			this.resetTurn();
+			this.playerCounter++;;
+			this.messageGen('player');
 		}
 	}
 
@@ -120,6 +144,10 @@ $('body').on('click', (event) => {
 	if (event.target.innerText === 'Restart Game') {
 		game.resetGame();
 		$('#outer-player-select')[0].style.visibility = 'visible';
+	}
+
+	if (event.target.innerText === 'End Turn') {
+		game.nextTurn();
 	}
 
 });
