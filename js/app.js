@@ -47,14 +47,20 @@ const game = {
 		for (let i = 0; i < 6; i++) {	
 			$(`#slot-${i}`).empty();
 		}
-	}, 
+	},
+	clearBankDice() {
+		for (let i = 0; i < 6; i++) {	
+			$(`#save-${i}`).empty();
+		}
+	}
+	, 
 	showInstructions() {				//show game instructions
 		let $instText = $('#instructions-text');
 		if ($instText[0].style.visibility === '' || $instText[0].style.visibility === 'hidden') {
 			$instText[0].style.visibility = 'visible';
 			$instText.velocity('transition.expandIn', 500);
 		} else {
-			// $instText.velocity('fadeOut', 2000); ////need to fix fadeout animation
+			// $instText.velocity('fadeOut', 2000); ////need to fix fadeout animation*********
 			$instText[0].style.visibility = 'hidden';
 		}
 	}, 
@@ -64,6 +70,7 @@ const game = {
 			$('#score').append(`<p>${this.players[i-1].name}: <span id="score${i}">0</span></p>`); //adds a place for each player on leaderboard
 		}
 		this.playerCounter = 1; //game state (ie whose turn it is) will be controlled by playerCounter. Once game is initialized, the counter is set to 1 to denote it is player 1's turn.
+		this.messageGen('player');
 	},
 	resetGame() {		//resets game. will probably put reset button on page somewhere
 		this.diceIn = 6;
@@ -71,7 +78,15 @@ const game = {
 		this.players = [];
 		this.clearInPlayDice();
 		$('#score').empty();
+	},
+	messageGen(input) {
+		if (input === 'player') {
+			let currentPlayer = this.playerCounter - 1;
+			let playerName = this.players[currentPlayer].name;
+			$('#message').text(`It's ${playerName}'s turn!`);
+		}
 	}
+
 }
 	
 
@@ -101,6 +116,12 @@ $('body').on('click', (event) => {
 		game.startGame(numPlayers);
 		$('#outer-player-select')[0].style.visibility = 'hidden';
 	}
+
+	if (event.target.innerText === 'Restart Game') {
+		game.resetGame();
+		$('#outer-player-select')[0].style.visibility = 'visible';
+	}
+
 });
 
 
