@@ -37,11 +37,11 @@ const game = {
 	playerCounter: null,	//tracks what player's turn it is
 	players: [],			//array holding players created by player class 
 	turnScore: 0,
+	rollScore: 0,
 	diceInPlay: [],			//holds all dice rolled
 	usedDiceArray: [false, false, false, false, false, false],
 	firstRoll: true,
 	rollDice() {
-		//add a function to score the banked points and add them to turn score
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
 			this.clearInPlayDice();				//clears board of in play dice before each roll
 			this.clearBankDice();
@@ -55,9 +55,12 @@ const game = {
 			for (let i = 0; i < this.usedDiceArray.length; i++) {
 				if (this.usedDiceArray[i] !== false) {
 					this.firstRoll = true;
-					this.rollDice();
 				}
 			}
+			if (this.diceIn === 0) {
+				this.diceIn = 6;
+			}
+			this.rollDice();
 		}
 	},
 	clearInPlayDice() {						//clears in play dice board
@@ -95,7 +98,7 @@ const game = {
 		this.playerCounter = null;
 		this.players = [];
 		this.turnScore = 0;
-		this.rollControl = 0;
+		this.rollScore = 0;
 		this.firstRoll = true;
 		this.clearInPlayDice();
 		this.clearBankDice();
@@ -106,7 +109,7 @@ const game = {
 		this.diceIn = 6;
 		this.diceInPlay = [];
 		this.turnScore = 0;
-		this.rollControl = 0;
+		this.rollScore = 0;
 		this.firstRoll = true;
 		this.clearInPlayDice();
 		this.clearBankDice();
@@ -143,6 +146,7 @@ const game = {
 					$('#save-0').append(this.usedDiceArray[0].source);
 					$('#slot-0').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-1':
@@ -151,6 +155,7 @@ const game = {
 					$('#save-1').append(this.usedDiceArray[1].source);
 					$('#slot-1').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-2':
@@ -159,6 +164,7 @@ const game = {
 					$('#save-2').append(this.usedDiceArray[2].source);
 					$('#slot-2').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-3':
@@ -167,6 +173,7 @@ const game = {
 					$('#save-3').append(this.usedDiceArray[3].source);
 					$('#slot-3').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-4':
@@ -175,6 +182,7 @@ const game = {
 					$('#save-4').append(this.usedDiceArray[4].source);
 					$('#slot-4').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-5':
@@ -183,6 +191,7 @@ const game = {
 					$('#save-5').append(this.usedDiceArray[5].source);
 					$('#slot-5').empty();
 					this.diceIn--;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-0':
@@ -191,6 +200,7 @@ const game = {
 					this.usedDiceArray[0] = false;
 					$('#save-0').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-1':
@@ -199,6 +209,7 @@ const game = {
 					this.usedDiceArray[1] = false;
 					$('#save-1').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-2':
@@ -207,6 +218,7 @@ const game = {
 					this.usedDiceArray[2] = false;
 					$('#save-2').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-3':
@@ -215,6 +227,7 @@ const game = {
 					this.usedDiceArray[3] = false;
 					$('#save-3').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-4':
@@ -223,6 +236,7 @@ const game = {
 					this.usedDiceArray[4] = false;
 					$('#save-4').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-5':
@@ -231,6 +245,7 @@ const game = {
 					this.usedDiceArray[5] = false;
 					$('#save-5').empty();
 					this.diceIn++;
+					this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			default:
@@ -240,7 +255,7 @@ const game = {
 	scoreDice(diceArray) {
 		let numArray = [];
 		for (let i = 0; i < diceArray.length; i++) {
-			if (diceArray[i] !== false) {
+			if (diceArray[i] !== false && diceArray[i] !== null) {
 				numArray.push(diceArray[i].value);
 			}
 		}
@@ -248,31 +263,62 @@ const game = {
 		console.log(finalArray);
 		if (finalArray[0] === finalArray[5] && finalArray.length === 6) {
 			console.log('six of a kind!');
+			this.rollScore = 3000;
 		} else if (finalArray[0] === finalArray[2] && finalArray[3] === finalArray[5] && finalArray.length === 6) {
 			console.log('2 triplets!');
+			this.rollScore = 2500;
 		} else if (finalArray[0] === finalArray[1] && finalArray[2] === finalArray[3] && finalArray[4] === finalArray[5] && finalArray.length === 6) {
 			console.log('3 pair!');
+			this.rollScore = 1500;
 		} else if (finalArray[0] === 1 && finalArray[1] === 2 && finalArray[2] === 3 && finalArray[3] === 4 && finalArray[4] === 5 && finalArray.length === 6) {
 			console.log('straight!');
+			this.rollScore = 1500;
 		} else if (finalArray[0] === finalArray[4] && finalArray.length === 5) {
 			console.log('five of a kind!');
+			this.rollScore = 2000;
 		} else if (finalArray[0] === finalArray[3] && finalArray.length === 4) {
 			console.log('four of a kind!');
+			this.rollScore = 1000;
 		} else if (finalArray[0] === 6 && finalArray[2] === 6 && finalArray.length === 3) {
 			console.log('three of a kind 6s!');
+			this.rollScore = 600;
 		} else if (finalArray[0] === 5 && finalArray[2] === 5 && finalArray.length === 3) {
 			console.log('three of a kind 5s');
+			this.rollScore = 500;
 		} else if (finalArray[0] === 4 && finalArray[2] === 4 && finalArray.length === 3) {
 			console.log('three of a kind 4s');
+			this.rollScore = 400;
 		} else if (finalArray[0] === 3 && finalArray[2] === 3 && finalArray.length === 3) {
 			console.log('three of a kind 3s');
+			this.rollScore = 300;
 		} else if (finalArray[0] === 2 && finalArray[2] === 2 && finalArray.length === 3) {
 			console.log('three of a kind 2s');
+			this.rollScore = 200;
 		} else if (finalArray[0] === 1 || finalArray[0] === 5) {
 			console.log('fives and ones!');
+			let tempScore = 0;
+			for (let j = 0; j < finalArray.length; j++) {
+				if (finalArray[j] === 1) {
+					tempScore += 100;
+				} else if (finalArray[j] === 5) {
+					tempScore += 50;
+				}
+			}
+			this.rollScore = tempScore;
 		} else {
 			console.log('farkle');
 		}			 
+	}, 
+	bankPoints() {
+		this.turnScore += this.rollScore;
+		$('#turnSc').text(this.turnScore);
+		this.clearBankDice();
+		for (let i = 0; i < this.usedDiceArray.length; i++) {
+			if (this.usedDiceArray[i]) {
+				this.usedDiceArray[i] = null;
+			}
+		}
+		this.rollScore = 0;
 	}
 }
 	
@@ -302,6 +348,10 @@ $('body').on('click', (event) => {
 
 	if (event.target.innerText === 'Roll') {
 		game.rollDice();
+	}
+
+	if (event.target.innerText === 'Bank Points') {
+		game.bankPoints();
 	}
 
 	if (event.target.innerText === 'End Turn') {
