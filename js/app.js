@@ -42,10 +42,12 @@ const game = {
 	rollScore: 0,
 	firstRoll: true,
 	winner: false,
+	preventBank: 0,		//stops you from pushing bank button wihtout dice in scoring section. 
 	rollDice() {
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
 			this.clearInPlayDice();				//clears board of in play dice before each roll
 			this.clearBankDice();
+			this.preventBank = 0;
 			this.firstRoll = false;
 			for (let i = 0; i < this.diceIn; i++) {				
 				let j = Math.floor(Math.random()*6);
@@ -151,7 +153,7 @@ const game = {
 					$('#save-0').append(this.usedDiceArray[0].source);
 					$('#slot-0').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'slot-1':
@@ -160,7 +162,7 @@ const game = {
 					$('#save-1').append(this.usedDiceArray[1].source);
 					$('#slot-1').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'slot-2':
@@ -169,7 +171,7 @@ const game = {
 					$('#save-2').append(this.usedDiceArray[2].source);
 					$('#slot-2').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'slot-3':
@@ -178,7 +180,7 @@ const game = {
 					$('#save-3').append(this.usedDiceArray[3].source);
 					$('#slot-3').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'slot-4':
@@ -187,7 +189,7 @@ const game = {
 					$('#save-4').append(this.usedDiceArray[4].source);
 					$('#slot-4').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'slot-5':
@@ -196,7 +198,7 @@ const game = {
 					$('#save-5').append(this.usedDiceArray[5].source);
 					$('#slot-5').empty();
 					this.diceIn--;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank++;
 				}
 				break;
 			case 'save-0':
@@ -205,7 +207,7 @@ const game = {
 					this.usedDiceArray[0] = false;
 					$('#save-0').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			case 'save-1':
@@ -214,7 +216,7 @@ const game = {
 					this.usedDiceArray[1] = false;
 					$('#save-1').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			case 'save-2':
@@ -223,7 +225,7 @@ const game = {
 					this.usedDiceArray[2] = false;
 					$('#save-2').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			case 'save-3':
@@ -232,7 +234,7 @@ const game = {
 					this.usedDiceArray[3] = false;
 					$('#save-3').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			case 'save-4':
@@ -241,7 +243,7 @@ const game = {
 					this.usedDiceArray[4] = false;
 					$('#save-4').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			case 'save-5':
@@ -250,7 +252,7 @@ const game = {
 					this.usedDiceArray[5] = false;
 					$('#save-5').empty();
 					this.diceIn++;
-					// this.scoreDice(this.usedDiceArray);
+					this.preventBank--;
 				}
 				break;
 			default:
@@ -365,6 +367,7 @@ const game = {
 			}
 		}
 		this.rollScore = 0;
+		this.preventBank = 0;
 	},
 	farkle() {
 		this.turnScore = 0;
@@ -411,7 +414,7 @@ $('body').on('click', (event) => {
 	}
 
 	if (event.target.innerText === 'Bank Points') {
-		if (!game.winner) {
+		if (!game.winner && game.preventBank > 0) {
 			game.bankPoints();
 		}
 	}
@@ -433,7 +436,6 @@ $('body').on('click', (event) => {
 			game.manipulateDice(event.target.parentNode.id);
 		}	
 	}	
-
 });
 
 
