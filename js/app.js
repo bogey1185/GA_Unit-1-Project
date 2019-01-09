@@ -378,8 +378,12 @@ $('body').on('click', (event) => {
 	if (event.target.innerText === 'Submit') {
 		event.preventDefault();
 		let numPlayers = $('input').val();
-		game.startGame(numPlayers);
-		$('#outer-player-select')[0].style.visibility = 'hidden';
+		if (numPlayers <= 10) {
+			game.startGame(numPlayers);
+			$('#outer-player-select')[0].style.visibility = 'hidden';
+		} else {
+			$('#prompt-text').text('Maximum: 10 players. Please try again.')
+		}
 	}
 
 	if (event.target.innerText === 'How to Play') {
@@ -401,6 +405,7 @@ $('body').on('click', (event) => {
 	if (event.target.innerText === 'Restart Game') {
 		game.resetGame();
 		$('#outer-player-select')[0].style.visibility = 'visible';
+		$('#prompt-text').text('Select number of players:')
 	}
 
 	if (event.target.tagName === 'IMG') {
