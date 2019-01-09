@@ -34,12 +34,12 @@ const game = {
 		}
 	],
 	diceIn: 6,				//as dice are removed from play, this number is lowered.
+	diceInPlay: [],			//holds all dice rolled
+	usedDiceArray: [false, false, false, false, false, false],  //temp holds dice selectd by user for scoring
 	playerCounter: null,	//tracks what player's turn it is
 	players: [],			//array holding players created by player class 
 	turnScore: 0,
 	rollScore: 0,
-	diceInPlay: [],			//holds all dice rolled
-	usedDiceArray: [false, false, false, false, false, false],
 	firstRoll: true,
 	rollDice() {
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
@@ -51,16 +51,17 @@ const game = {
 				this.diceInPlay.push(this.dice[j]);
 				$(`#slot-${i}`).append(this.dice[j].source);
 			}
+			// this.checkFarkleOnRoll(this.diceInPlay);
 		} else {
-			for (let i = 0; i < this.usedDiceArray.length; i++) {
-				if (this.usedDiceArray[i] !== false) {
-					this.firstRoll = true;
-				}
-			}
 			if (this.diceIn === 0) {
 				this.diceIn = 6;
 			}
-			this.rollDice();
+			for (let i = 0; i < this.usedDiceArray.length; i++) {
+				if (this.usedDiceArray[i] !== false) {
+					this.firstRoll = true;
+					this.rollDice();
+				}
+			}
 		}
 	},
 	clearInPlayDice() {						//clears in play dice board
@@ -120,6 +121,8 @@ const game = {
 			let currentPlayer = this.playerCounter - 1;
 			let playerName = this.players[currentPlayer].name;
 			$('#message').text(`It's ${playerName}'s turn!`);
+		} else if (input === 'farkle') {
+			$('#message').text('FARKLE!!!');
 		}
 	},
 	nextTurn() {
@@ -146,7 +149,7 @@ const game = {
 					$('#save-0').append(this.usedDiceArray[0].source);
 					$('#slot-0').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-1':
@@ -155,7 +158,7 @@ const game = {
 					$('#save-1').append(this.usedDiceArray[1].source);
 					$('#slot-1').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-2':
@@ -164,7 +167,7 @@ const game = {
 					$('#save-2').append(this.usedDiceArray[2].source);
 					$('#slot-2').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-3':
@@ -173,7 +176,7 @@ const game = {
 					$('#save-3').append(this.usedDiceArray[3].source);
 					$('#slot-3').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-4':
@@ -182,7 +185,7 @@ const game = {
 					$('#save-4').append(this.usedDiceArray[4].source);
 					$('#slot-4').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'slot-5':
@@ -191,7 +194,7 @@ const game = {
 					$('#save-5').append(this.usedDiceArray[5].source);
 					$('#slot-5').empty();
 					this.diceIn--;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-0':
@@ -200,7 +203,7 @@ const game = {
 					this.usedDiceArray[0] = false;
 					$('#save-0').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-1':
@@ -209,7 +212,7 @@ const game = {
 					this.usedDiceArray[1] = false;
 					$('#save-1').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-2':
@@ -218,7 +221,7 @@ const game = {
 					this.usedDiceArray[2] = false;
 					$('#save-2').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-3':
@@ -227,7 +230,7 @@ const game = {
 					this.usedDiceArray[3] = false;
 					$('#save-3').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-4':
@@ -236,7 +239,7 @@ const game = {
 					this.usedDiceArray[4] = false;
 					$('#save-4').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			case 'save-5':
@@ -245,7 +248,7 @@ const game = {
 					this.usedDiceArray[5] = false;
 					$('#save-5').empty();
 					this.diceIn++;
-					this.scoreDice(this.usedDiceArray);
+					// this.scoreDice(this.usedDiceArray);
 				}
 				break;
 			default:
@@ -306,10 +309,15 @@ const game = {
 			}
 			this.rollScore = tempScore;
 		} else {
-			console.log('farkle');
+			// return 'farkle'
+			this.farkle();
 		}			 
-	}, 
+	},
+	// checkFarkleOnRoll(diceArray) {
+
+	// },
 	bankPoints() {
+		this.scoreDice(this.usedDiceArray);
 		this.turnScore += this.rollScore;
 		$('#turnSc').text(this.turnScore);
 		this.clearBankDice();
@@ -319,18 +327,17 @@ const game = {
 			}
 		}
 		this.rollScore = 0;
+	},
+	farkle() {
+		this.messageGen('farkle');
+		setTimeout(() => {
+			console.log('timeout running');
+			this.nextTurn();
+		}, 1500);
+		
 	}
 }
 	
-
-
-
-
-
-
-
-
-
 
 //listeners
 
