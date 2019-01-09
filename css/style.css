@@ -60,9 +60,9 @@ main header {
 #instructions-text {
 	position: fixed;
 	top: 100px;
-	left: 100px;
-	width: 400px;
-	height: 450px;
+	left: 10px;
+	width: 280px;
+	height: 600px;
 	background-color: rgba(0, 0, 0, 1);
 	border: 6px solid white;
 	border-radius: 10px;
