@@ -71,7 +71,7 @@ main header {
 	text-align: justify;
 	font-size: .75em;
 	padding: 10px;
-	visibility: hidden;
+	opacity: 0;
 }
 
 #title {

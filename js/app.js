@@ -51,7 +51,7 @@ const game = {
 				this.diceInPlay.push(this.dice[j]);
 				$(`#slot-${i}`).append(this.dice[j].source);
 			}
-			// this.checkFarkleOnRoll(this.diceInPlay);
+			this.checkFarkleOnRoll(this.diceInPlay);
 		} else {
 			if (this.diceIn === 0) {
 				this.diceIn = 6;
@@ -77,13 +77,10 @@ const game = {
 		}
 	}, 
 	showInstructions() {				//show game instructions
-		let $instText = $('#instructions-text');
-		if ($instText[0].style.visibility === '' || $instText[0].style.visibility === 'hidden') {
-			$instText[0].style.visibility = 'visible';
-			$instText.velocity('transition.expandIn', 500);
+		if ($('#instructions-text').css('opacity') === '0') {
+			$('#instructions-text').velocity('transition.expandIn', 500);
 		} else {
-			// $instText.velocity('fadeOut', 2000); ////need to fix fadeout animation*********
-			$instText[0].style.visibility = 'hidden';
+			$('#instructions-text').velocity('transition.expandOut', 500);
 		}
 	}, 
 	startGame(numPlayers) {
@@ -263,42 +260,30 @@ const game = {
 			}
 		}
 		let finalArray = numArray.sort();
-		console.log(finalArray);
+		
 		if (finalArray[0] === finalArray[5] && finalArray.length === 6) {
-			console.log('six of a kind!');
 			this.rollScore = 3000;
 		} else if (finalArray[0] === finalArray[2] && finalArray[3] === finalArray[5] && finalArray.length === 6) {
-			console.log('2 triplets!');
 			this.rollScore = 2500;
 		} else if (finalArray[0] === finalArray[1] && finalArray[2] === finalArray[3] && finalArray[4] === finalArray[5] && finalArray.length === 6) {
-			console.log('3 pair!');
 			this.rollScore = 1500;
 		} else if (finalArray[0] === 1 && finalArray[1] === 2 && finalArray[2] === 3 && finalArray[3] === 4 && finalArray[4] === 5 && finalArray.length === 6) {
-			console.log('straight!');
 			this.rollScore = 1500;
 		} else if (finalArray[0] === finalArray[4] && finalArray.length === 5) {
-			console.log('five of a kind!');
 			this.rollScore = 2000;
 		} else if (finalArray[0] === finalArray[3] && finalArray.length === 4) {
-			console.log('four of a kind!');
 			this.rollScore = 1000;
 		} else if (finalArray[0] === 6 && finalArray[2] === 6 && finalArray.length === 3) {
-			console.log('three of a kind 6s!');
 			this.rollScore = 600;
 		} else if (finalArray[0] === 5 && finalArray[2] === 5 && finalArray.length === 3) {
-			console.log('three of a kind 5s');
 			this.rollScore = 500;
 		} else if (finalArray[0] === 4 && finalArray[2] === 4 && finalArray.length === 3) {
-			console.log('three of a kind 4s');
 			this.rollScore = 400;
 		} else if (finalArray[0] === 3 && finalArray[2] === 3 && finalArray.length === 3) {
-			console.log('three of a kind 3s');
 			this.rollScore = 300;
 		} else if (finalArray[0] === 2 && finalArray[2] === 2 && finalArray.length === 3) {
-			console.log('three of a kind 2s');
 			this.rollScore = 200;
 		} else if (finalArray[0] === 1 || finalArray[0] === 5) {
-			console.log('fives and ones!');
 			let tempScore = 0;
 			for (let j = 0; j < finalArray.length; j++) {
 				if (finalArray[j] === 1) {
@@ -313,9 +298,57 @@ const game = {
 			this.farkle();
 		}			 
 	},
-	// checkFarkleOnRoll(diceArray) {
+	checkFarkleOnRoll(diceArray) {
+		let numArray = [];			//first part sanitizes incoming array so we are only working with numbers, not objects
+		for (let i = 0; i < diceArray.length; i++) {
+			if (diceArray[i] !== false && diceArray[i] !== null) {
+				numArray.push(diceArray[i].value);
+			}
+		}
+		let finalArray = numArray.sort(); //final array is the array of nums only
+		if (finalArray.includes(1) || finalArray.includes(5)) { //if there are any 1s or 5s, there is no farkle
+			return;
+		} 
+		const vals = [0, 0, 0, 0, 0, 0];
 
-	// },
+		for (let j = 0; j < finalArray.length; j++) {  //loops through incrementing vals so we know how many of each val are in the input array
+														//once we know how many, we can check if there is 3 pair, or triplets or better.
+			switch(finalArray[j]) {
+				case 1: 
+					vals[0]++;
+					break;
+				case 2:
+					vals[1]++;
+					break;
+				case 3:
+					vals[2]++;
+					break;
+				case 4:
+					vals[3]++;
+					break;
+				case 5:
+					vals[4]++;
+					break;
+				case 6:
+					vals[5]++;
+					break;
+			}
+		}
+		let doubles = 0;
+
+		for (let k = 0; k < vals.length; k++) {
+			if (vals[k] === 2) {
+				doubles++;
+				if (doubles >= 3) {					//checks if there are 3 pairs
+					return;
+				}
+			} else if (vals[k] >= 3) {
+				return;	
+			}
+		};
+		this.farkle();
+
+	},
 	bankPoints() {
 		this.scoreDice(this.usedDiceArray);
 		this.turnScore += this.rollScore;
@@ -329,11 +362,11 @@ const game = {
 		this.rollScore = 0;
 	},
 	farkle() {
+		this.turnScore = 0;
 		this.messageGen('farkle');
 		setTimeout(() => {
-			console.log('timeout running');
 			this.nextTurn();
-		}, 1500);
+		}, 2500);
 		
 	}
 }
