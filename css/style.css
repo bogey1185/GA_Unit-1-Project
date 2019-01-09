@@ -68,7 +68,7 @@ main header {
 	border-radius: 10px;
 	background-color: lightgrey;
 	font-family: 'Seymour One', sans-serif;
-	text-align: justify;
+	text-align: left;
 	font-size: .75em;
 	padding: 10px;
 	opacity: 0;

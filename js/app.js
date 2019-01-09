@@ -41,6 +41,7 @@ const game = {
 	turnScore: 0,
 	rollScore: 0,
 	firstRoll: true,
+	winner: false,
 	rollDice() {
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
 			this.clearInPlayDice();				//clears board of in play dice before each roll
@@ -98,6 +99,7 @@ const game = {
 		this.turnScore = 0;
 		this.rollScore = 0;
 		this.firstRoll = true;
+		this.winner = false;
 		this.clearInPlayDice();
 		this.clearBankDice();
 		$('#score').empty();
@@ -109,6 +111,7 @@ const game = {
 		this.turnScore = 0;
 		this.rollScore = 0;
 		this.firstRoll = true;
+		this.winner = false;
 		this.clearInPlayDice();
 		this.clearBankDice();
 		$('#turnSc').text('0');
@@ -130,12 +133,14 @@ const game = {
 			this.resetTurn();
 			this.playerCounter = 1;
 			this.messageGen('player');
+			this.winnerCheck();
 		} else {
 			this.players[this.playerCounter - 1].score += this.turnScore;
 			$(`#score-${this.playerCounter}`).text(`${this.players[this.playerCounter - 1].score}`);
 			this.resetTurn();
 			this.playerCounter++;;
 			this.messageGen('player');
+			this.winnerCheck();
 		}
 	}, 
 	manipulateDice(input) {   //moves dice between rolled row and saved row
@@ -367,7 +372,14 @@ const game = {
 		setTimeout(() => {
 			this.nextTurn();
 		}, 2500);
-		
+	}, 
+	winnerCheck() {
+		for (let i = 0; i < this.players.length; i++) {
+			if (this.players[i].score >= 10000) {
+				$('#message').text(`${this.players[i].name} won the game!`);
+				this.winner = true;
+			}
+		}
 	}
 }
 	
@@ -378,28 +390,36 @@ $('body').on('click', (event) => {
 	if (event.target.innerText === 'Submit') {
 		event.preventDefault();
 		let numPlayers = $('input').val();
-		if (numPlayers <= 10) {
+		if (numPlayers <= 8) {
 			game.startGame(numPlayers);
 			$('#outer-player-select')[0].style.visibility = 'hidden';
 		} else {
-			$('#prompt-text').text('Maximum: 10 players. Please try again.')
+			$('#prompt-text').text('Maximum: 8 players. Please try again.')
 		}
 	}
 
 	if (event.target.innerText === 'How to Play') {
-		game.showInstructions();
+		if (!game.winner) {
+			game.showInstructions();
+		}
 	}
 
 	if (event.target.innerText === 'Roll') {
-		game.rollDice();
+		if (!game.winner) {
+			game.rollDice();
+		}
 	}
 
 	if (event.target.innerText === 'Bank Points') {
-		game.bankPoints();
+		if (!game.winner) {
+			game.bankPoints();
+		}
 	}
 
 	if (event.target.innerText === 'End Turn') {
-		game.nextTurn();
+		if (!game.winner) {
+			game.nextTurn();
+		}
 	}
 
 	if (event.target.innerText === 'Restart Game') {
@@ -409,9 +429,11 @@ $('body').on('click', (event) => {
 	}
 
 	if (event.target.tagName === 'IMG') {
+		if (!game.winner) {
 			game.manipulateDice(event.target.parentNode.id);
+		}	
 	}	
-	// console.log(event.target);
+
 });
 
 
