@@ -1,3 +1,4 @@
+//change instructions
 
 class Player {
 	constructor(name) {
@@ -36,6 +37,8 @@ const game = {
 	diceIn: 6,				//as dice are removed from play, this number is lowered.
 	diceInPlay: [],			//holds all dice rolled
 	usedDiceArray: [false, false, false, false, false, false],  //temp holds dice selectd by user for scoring
+	diceScored: 0,
+	resetDiceScored: false,
 	playerCounter: null,	//tracks what player's turn it is
 	players: [],			//array holding players created by player class 
 	turnScore: 0,
@@ -46,6 +49,11 @@ const game = {
 	rollDice() {
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
 			this.bankPoints();
+			if (this.resetDiceScored) {
+				this.diceScored = 0;
+				this.resetDiceScored = false;
+			}
+			if (this.diceScored + this.diceIn !== 6) this.farkle();
 			this.clearInPlayDice();				//clears board of in play dice before each roll
 			this.clearBankDice();
 			this.preventBank = 0;
@@ -59,6 +67,7 @@ const game = {
 		} else {
 			if (this.diceIn === 0) {
 				this.diceIn = 6;
+				this.resetDiceScored = true;
 			}
 			for (let i = 0; i < this.usedDiceArray.length; i++) {
 				if (this.usedDiceArray[i] !== false) {
@@ -143,6 +152,7 @@ const game = {
 	},
 	nextTurn() {
 		this.bankPoints();
+		this.diceScored = 0;
 		let currentPlayer = this.players[this.playerCounter - 1];
 		if (this.playerCounter === this.players.length) {
 			currentPlayer.score += this.turnScore;
@@ -275,9 +285,10 @@ const game = {
 		}
 	},
 	scoreDice(diceArray) {
-		
 		let highScore = 0;				//if dice qualify for scoring in multiple diff tests, when each test is done it will see if the total is bigger than high score. high score will eventully be the result scored to the turn score
 		let tempScore = 0;				//here is where each individual score will be kept until compared to highscore
+		let tempDice = 0;
+		let highDice = 0;
 		const numArray = [];				
 		diceArray.forEach((el) => {
 			numArray.push(el.value);
@@ -313,6 +324,8 @@ const game = {
 		if (countArray.includes(6)) {
 			tempScore = 3000; 
 			if (tempScore > highScore) highScore = tempScore;
+			tempDice = 6;
+			if (tempDice > highDice) highDice = tempDice;
 		}
 		//-------
 
@@ -323,13 +336,17 @@ const game = {
 		});
 		if (doublesCounter === 3) {
 			tempScore = 1500;
-			if (tempScore > highScore) highScore = tempScore;	
+			if (tempScore > highScore) highScore = tempScore;
+			tempDice = 6;
+			if (tempDice > highDice) highDice = tempDice;	
 		} 
 		//-------
 		//edge case - 4 of a kind plus another pair (should score like 3 pair)
 		if (countArray.includes(4) && countArray.includes(2)) {
 			tempScore = 1500;
 			if (tempScore > highScore) highScore = tempScore;
+			tempDice = 6;
+			if (tempDice > highDice) highDice = tempDice;
 		}
 
 		//-------
@@ -342,6 +359,8 @@ const game = {
 			}
 			if (count === 6) tempScore = 1500;
 			if (tempScore > highScore) highScore = tempScore;
+			tempDice = 6;
+			if (tempDice > highDice) highDice = tempDice;
 		}
 		//-------
 
@@ -354,12 +373,22 @@ const game = {
 			if (triplesCounter === 2) {
 				tempScore = 2500;
 				if (tempScore > highScore) highScore = tempScore;
+				tempDice = 6;
+				if (tempDice > highDice) highDice = tempDice;
 			} else {
 				let tripleIdx = countArray.indexOf(3);
 				tempScore = (tripleIdx + 1) * 100;
-				if (tripleIdx !== 0) tempScore += countArray[0] * 100;
-				if (tripleIdx !== 4) tempScore += countArray[4] * 50;
+				tempDice = 3;
+				if (tripleIdx !== 0) {
+					tempScore += countArray[0] * 100;
+					tempDice += countArray[0];	
+				} 
+				if (tripleIdx !== 4) {
+					tempScore += countArray[4] * 50;
+					tempDice += countArray[4];
+				}
 				if (tempScore > highScore) highScore = tempScore;
+				if (tempDice > highDice) highDice = tempDice;
 			}
 		}	
 		//-------
@@ -367,26 +396,38 @@ const game = {
 		//five of a kind w/ or w/o extra 1s and 5s
 		if (countArray.includes(5)) {
 			tempScore = 2000;
+			tempDice = 5;
 			if (countArray.indexOf(5) !== 0) { 		//checks if the 5 of a kind is 1s. If not, for each 1, add 100 to roll count.
-				if (countArray[0] === 1) tempScore += 100;
+				if (countArray[0] === 1) {
+					tempScore += 100;
+					tempDice++;
+				}
 			}
 			if (countArray.indexOf(5) !== 4) {
-				if (countArray[4] === 1) tempScore += 50;
+				if (countArray[4] === 1) {
+					tempScore += 50;
+					tempDice++;
+				} 
 			}
 			if (tempScore > highScore) highScore = tempScore;
+			if (tempDice > highDice) highDice = tempDice;
 		} 
 		//-------
 
 		//four of a kind w/ or w/o extra 1s and 5s
 		if (countArray.includes(4)) {
 			tempScore = 1000;
+			tempDice = 4;
 			if (countArray.indexOf(4) !== 0) { 		//checks if the 5 of a kind is 1s. If not, for each 1, add 100 to roll count.
 				tempScore += countArray[0] * 100;
+				tempDice += countArray[0];
 			}
 			if (countArray.indexOf(4) !== 4) {
 				tempScore += countArray[4] * 50;
+				tempDice += countArray[4];
 			}
 			if (tempScore > highScore) highScore = tempScore;
+			if (tempDice > highDice) highDice = tempDice;
 		} 
 		//-------
 
@@ -394,11 +435,13 @@ const game = {
 
 		if (numArray.includes(1) || numArray.includes(5)) {
 			tempScore = (countArray[0] * 100) + (countArray[4] * 50);
+			tempDice = countArray[0] + countArray[4];
 			if (tempScore > highScore) highScore = tempScore;
+			if (tempDice > highDice) highDice = tempDice;
 		}
-		
+				
 		this.rollScore = highScore;	
-
+		this.diceScored += highDice;
 	},
 	checkFarkleOnRoll(diceArray) {
 		let numArray = [];			//first part sanitizes incoming array so we are only working with numbers, not objects
