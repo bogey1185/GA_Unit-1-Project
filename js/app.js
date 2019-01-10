@@ -45,6 +45,7 @@ const game = {
 	preventBank: 0,		//stops you from pushing bank button wihtout dice in scoring section. 
 	rollDice() {
 		if (this.firstRoll) {				//firstroll prevents player from hitting roll again before commiting any dice to scoring panel
+			this.bankPoints();
 			this.clearInPlayDice();				//clears board of in play dice before each roll
 			this.clearBankDice();
 			this.preventBank = 0;
@@ -66,6 +67,19 @@ const game = {
 				}
 			}
 		}
+	},
+	bankPoints() {
+		this.scoreDice(this.usedDiceArray);
+		this.turnScore += this.rollScore;
+		$('#turnSc').text(this.turnScore);
+		this.clearBankDice();
+		for (let i = 0; i < this.usedDiceArray.length; i++) {
+			if (this.usedDiceArray[i]) {
+				this.usedDiceArray[i] = null;
+			}
+		}
+		this.rollScore = 0;
+		this.preventBank = 0;
 	},
 	clearInPlayDice() {						//clears in play dice board
 		for (let i = 0; i < 6; i++) {	
@@ -128,6 +142,7 @@ const game = {
 		}
 	},
 	nextTurn() {
+		this.bankPoints();
 		let currentPlayer = this.players[this.playerCounter - 1];
 		if (this.playerCounter === this.players.length) {
 			currentPlayer.score += this.turnScore;
@@ -406,45 +421,7 @@ const game = {
 			if (tempScore > highScore) highScore = tempScore;
 		}
 
-
-
-		
-
-
-
-		
-
-		//convert highScore to rollScore to bank function can add it to turn score
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		this.rollScore = highScore;
 
 		// let numArray = [];
 		// for (let i = 0; i < diceArray.length; i++) {
@@ -542,19 +519,6 @@ const game = {
 		this.farkle();
 
 	},
-	bankPoints() {
-		this.scoreDice(this.usedDiceArray);
-		this.turnScore += this.rollScore;
-		$('#turnSc').text(this.turnScore);
-		this.clearBankDice();
-		for (let i = 0; i < this.usedDiceArray.length; i++) {
-			if (this.usedDiceArray[i]) {
-				this.usedDiceArray[i] = null;
-			}
-		}
-		this.rollScore = 0;
-		this.preventBank = 0;
-	},
 	farkle() {
 		this.turnScore = 0;
 		this.messageGen('farkle');
@@ -599,11 +563,11 @@ $('body').on('click', (event) => {
 		}
 	}
 
-	if (event.target.innerText === 'Bank Points') {
-		if (!game.winner && game.preventBank > 0) {
-			game.bankPoints();
-		}
-	}
+	// if (event.target.innerText === 'Bank Points') {
+	// 	if (!game.winner && game.preventBank > 0) {
+	// 		game.bankPoints();
+	// 	}
+	// }
 
 	if (event.target.innerText === 'End Turn') {
 		if (!game.winner) {
