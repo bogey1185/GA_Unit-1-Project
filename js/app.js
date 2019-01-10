@@ -259,51 +259,217 @@ const game = {
 				return;
 		}
 	},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	scoreDice(diceArray) {
-		let numArray = [];
-		for (let i = 0; i < diceArray.length; i++) {
-			if (diceArray[i] !== false && diceArray[i] !== null) {
-				numArray.push(diceArray[i].value);
-			}
-		}
-		let finalArray = numArray.sort();
 		
-		if (finalArray[0] === finalArray[5] && finalArray.length === 6) {
-			this.rollScore = 3000;
-		} else if (finalArray[0] === finalArray[2] && finalArray[3] === finalArray[5] && finalArray.length === 6) {
-			this.rollScore = 2500;
-		} else if (finalArray[0] === finalArray[1] && finalArray[2] === finalArray[3] && finalArray[4] === finalArray[5] && finalArray.length === 6) {
-			this.rollScore = 1500;
-		} else if (finalArray[0] === 1 && finalArray[1] === 2 && finalArray[2] === 3 && finalArray[3] === 4 && finalArray[4] === 5 && finalArray.length === 6) {
-			this.rollScore = 1500;
-		} else if (finalArray[0] === finalArray[4] && finalArray.length === 5) {
-			this.rollScore = 2000;
-		} else if (finalArray[0] === finalArray[3] && finalArray.length === 4) {
-			this.rollScore = 1000;
-		} else if (finalArray[0] === 6 && finalArray[2] === 6 && finalArray.length === 3) {
-			this.rollScore = 600;
-		} else if (finalArray[0] === 5 && finalArray[2] === 5 && finalArray.length === 3) {
-			this.rollScore = 500;
-		} else if (finalArray[0] === 4 && finalArray[2] === 4 && finalArray.length === 3) {
-			this.rollScore = 400;
-		} else if (finalArray[0] === 3 && finalArray[2] === 3 && finalArray.length === 3) {
-			this.rollScore = 300;
-		} else if (finalArray[0] === 2 && finalArray[2] === 2 && finalArray.length === 3) {
-			this.rollScore = 200;
-		} else if (finalArray[0] === 1 || finalArray[0] === 5) {
-			let tempScore = 0;
-			for (let j = 0; j < finalArray.length; j++) {
-				if (finalArray[j] === 1) {
-					tempScore += 100;
-				} else if (finalArray[j] === 5) {
-					tempScore += 50;
-				}
+		let highScore = 0;				//if dice qualify for scoring in multiple diff tests, when each test is done it will see if the total is bigger than high score. high score will eventully be the result scored to the turn score
+		let tempScore = 0;				//here is where each individual score will be kept until compared to highscore
+		const numArray = [];				
+		diceArray.forEach((el) => {
+			numArray.push(el.value);
+		});
+
+		numArray.sort();	//all nums in order
+
+		let countArray = [0, 0, 0, 0, 0, 0];
+		numArray.forEach((el) => {
+			switch (el) {
+				case 1:
+					countArray[0]++;
+					break;
+				case 2:
+					countArray[1]++;
+					break;
+				case 3:
+					countArray[2]++;
+					break;
+				case 4:
+					countArray[3]++;
+					break;
+				case 5:
+					countArray[4]++;
+					break;
+				case 6:
+					countArray[5]++;
+					break;	
 			}
-			this.rollScore = tempScore;
-		} else {
-			// return 'farkle'
-			this.farkle();
-		}			 
+		});
+
+		console.log(numArray);
+		console.log(countArray);
+//------patterns that require 6 dice------//
+
+		//6 of a kind
+		if (countArray.includes(6)) {
+			tempScore = 3000; 
+			if (tempScore > highScore) highScore = tempScore;
+		}
+		//-------
+
+		//3 pair
+		let doublesCounter = 0;
+		countArray.forEach((el) => {
+			if (el === 2) doublesCounter++;
+		});
+		if (doublesCounter === 3) {
+			tempScore = 1500;
+			if (tempScore > highScore) highScore = tempScore;	
+		} 
+		//-------
+
+		//straight
+		if (numArray[0] === 1 && numArray[5] === 6) {
+			let count = 0;
+			for (let i = 0; i < countArray.length; i++) {
+				if (countArray[i] === 1) count++;
+			}
+			if (count === 6) tempScore = 1500;
+			if (tempScore > highScore) highScore = tempScore;
+		}
+		//-------
+
+		//three triples
+		let triplesCounter = 0;
+		countArray.forEach((el) => {
+			if (el === 3) triplesCounter++;
+		});
+		if (triplesCounter === 2) {
+			tempScore = 2500;
+			if (tempScore > highScore) highScore = tempScore;
+		}	
+		//-------
+
+//------four and five of a kind w/ or w/o extra 1's and 5's------//
+		
+		//five of a kind w/ or w/o extra 1s and 5s
+		if (countArray.includes(5)) {
+			tempScore = 2000;
+			if (countArray.indexOf(5) !== 0) { 		//checks if the 5 of a kind is 1s. If not, for each 1, add 100 to roll count.
+				if (countArray[0] === 1) tempScore += 100;
+			}
+			if (countArray.indexOf(5) !== 4) {
+				if (countArray[4] === 1) tempScore += 50;
+			}
+			if (tempScore > highScore) highScore = tempScore;
+		} 
+		//-------
+
+		//four of a kind w/ or w/o extra 1s and 5s
+		if (countArray.includes(4)) {
+			tempScore = 1000;
+			if (countArray.indexOf(4) !== 0) { 		//checks if the 5 of a kind is 1s. If not, for each 1, add 100 to roll count.
+				tempScore += countArray[0] * 100;
+			}
+			if (countArray.indexOf(4) !== 4) {
+				tempScore += countArray[4] * 50;
+			}
+			if (tempScore > highScore) highScore = tempScore;
+		} 
+		//-------
+		
+//-------triples w/ or w/o extra 1's and 5's -------//
+
+
+		console.log(highScore); 
+
+
+
+		
+
+		//convert highScore to rollScore to bank function can add it to turn score
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// let numArray = [];
+		// for (let i = 0; i < diceArray.length; i++) {
+		// 	if (diceArray[i] !== false && diceArray[i] !== null) {
+		// 		numArray.push(diceArray[i].value);
+		// 	}
+		// }
+		// let finalArray = numArray.sort();
+		
+		// if (finalArray[0] === finalArray[5] && finalArray.length === 6) {
+		// 	this.rollScore = 3000;
+		// } else if (finalArray[0] === finalArray[2] && finalArray[3] === finalArray[5] && finalArray.length === 6) {
+		// 	this.rollScore = 2500;
+		// } else if (finalArray[0] === finalArray[1] && finalArray[2] === finalArray[3] && finalArray[4] === finalArray[5] && finalArray.length === 6) {
+		// 	this.rollScore = 1500;
+		// } else if (finalArray[0] === 1 && finalArray[1] === 2 && finalArray[2] === 3 && finalArray[3] === 4 && finalArray[4] === 5 && finalArray.length === 6) {
+		// 	this.rollScore = 1500;
+		// } else if (finalArray[0] === finalArray[4] && finalArray.length === 5) {
+		// 	this.rollScore = 2000;
+		// } else if (finalArray[0] === finalArray[3] && finalArray.length === 4) {
+		// 	this.rollScore = 1000;
+		// } else if (finalArray[0] === 6 && finalArray[2] === 6 && finalArray.length === 3) {
+		// 	this.rollScore = 600;
+		// } else if (finalArray[0] === 5 && finalArray[2] === 5 && finalArray.length === 3) {
+		// 	this.rollScore = 500;
+		// } else if (finalArray[0] === 4 && finalArray[2] === 4 && finalArray.length === 3) {
+		// 	this.rollScore = 400;
+		// } else if (finalArray[0] === 3 && finalArray[2] === 3 && finalArray.length === 3) {
+		// 	this.rollScore = 300;
+		// } else if (finalArray[0] === 2 && finalArray[2] === 2 && finalArray.length === 3) {
+		// 	this.rollScore = 200;
+		// } else if (finalArray[0] === 1 || finalArray[0] === 5) {
+		// 	let tempScore = 0;
+		// 	for (let j = 0; j < finalArray.length; j++) {
+		// 		if (finalArray[j] === 1) {
+		// 			tempScore += 100;
+		// 		} else if (finalArray[j] === 5) {
+		// 			tempScore += 50;
+		// 		}
+		// 	}
+		// 	this.rollScore = tempScore;
+		// } else {
+		// 	// return 'farkle'
+		// 	this.farkle();
+		// }			 
 	},
 	checkFarkleOnRoll(diceArray) {
 		let numArray = [];			//first part sanitizes incoming array so we are only working with numbers, not objects
