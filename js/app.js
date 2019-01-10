@@ -309,14 +309,9 @@ const game = {
 			}
 		});
 
-		console.log('numArray: ', numArray);
-		console.log('countArray: ', countArray);
-//------patterns that require 6 dice------//
-
 		//6 of a kind
 		if (countArray.includes(6)) {
 			tempScore = 3000; 
-			console.log('6 of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		}
 		//-------
@@ -328,9 +323,15 @@ const game = {
 		});
 		if (doublesCounter === 3) {
 			tempScore = 1500;
-			console.log('three pair');
 			if (tempScore > highScore) highScore = tempScore;	
 		} 
+		//-------
+		//edge case - 4 of a kind plus another pair (should score like 3 pair)
+		if (countArray.includes(4) && countArray.includes(2)) {
+			tempScore = 1500;
+			if (tempScore > highScore) highScore = tempScore;
+		}
+
 		//-------
 
 		//straight
@@ -340,7 +341,6 @@ const game = {
 				if (countArray[i] === 1) count++;
 			}
 			if (count === 6) tempScore = 1500;
-			console.log('straight');
 			if (tempScore > highScore) highScore = tempScore;
 		}
 		//-------
@@ -353,14 +353,12 @@ const game = {
 			});
 			if (triplesCounter === 2) {
 				tempScore = 2500;
-				console.log('two trips');
 				if (tempScore > highScore) highScore = tempScore;
 			} else {
 				let tripleIdx = countArray.indexOf(3);
 				tempScore = (tripleIdx + 1) * 100;
 				if (tripleIdx !== 0) tempScore += countArray[0] * 100;
 				if (tripleIdx !== 4) tempScore += countArray[4] * 50;
-				console.log('one trip');
 				if (tempScore > highScore) highScore = tempScore;
 			}
 		}	
@@ -375,7 +373,6 @@ const game = {
 			if (countArray.indexOf(5) !== 4) {
 				if (countArray[4] === 1) tempScore += 50;
 			}
-			console.log('five of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		} 
 		//-------
@@ -389,7 +386,6 @@ const game = {
 			if (countArray.indexOf(4) !== 4) {
 				tempScore += countArray[4] * 50;
 			}
-			console.log('four of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		} 
 		//-------
@@ -398,11 +394,11 @@ const game = {
 
 		if (numArray.includes(1) || numArray.includes(5)) {
 			tempScore = (countArray[0] * 100) + (countArray[4] * 50);
-			console.log('fives and ones');
 			if (tempScore > highScore) highScore = tempScore;
 		}
+		
+		this.rollScore = highScore;	
 
-		this.rollScore = highScore;			 
 	},
 	checkFarkleOnRoll(diceArray) {
 		let numArray = [];			//first part sanitizes incoming array so we are only working with numbers, not objects
