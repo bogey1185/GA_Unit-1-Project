@@ -313,13 +313,14 @@ const game = {
 			}
 		});
 
-		console.log(numArray);
-		console.log(countArray);
+		console.log('numArray: ', numArray);
+		console.log('countArray: ', countArray);
 //------patterns that require 6 dice------//
 
 		//6 of a kind
 		if (countArray.includes(6)) {
 			tempScore = 3000; 
+			console.log('6 of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		}
 		//-------
@@ -331,6 +332,7 @@ const game = {
 		});
 		if (doublesCounter === 3) {
 			tempScore = 1500;
+			console.log('three pair');
 			if (tempScore > highScore) highScore = tempScore;	
 		} 
 		//-------
@@ -342,22 +344,31 @@ const game = {
 				if (countArray[i] === 1) count++;
 			}
 			if (count === 6) tempScore = 1500;
+			console.log('straight');
 			if (tempScore > highScore) highScore = tempScore;
 		}
 		//-------
 
-		//three triples
-		let triplesCounter = 0;
-		countArray.forEach((el) => {
-			if (el === 3) triplesCounter++;
-		});
-		if (triplesCounter === 2) {
-			tempScore = 2500;
-			if (tempScore > highScore) highScore = tempScore;
+		//two triples or single triple with leftovers to score
+		if (countArray.includes(3)) {
+			let triplesCounter = 0;
+			countArray.forEach((el) => {
+				if (el === 3) triplesCounter++;
+			});
+			if (triplesCounter === 2) {
+				tempScore = 2500;
+				console.log('two trips');
+				if (tempScore > highScore) highScore = tempScore;
+			} else {
+				let tripleIdx = countArray.indexOf(3);
+				tempScore = (tripleIdx + 1) * 100;
+				if (tripleIdx !== 0) tempScore += countArray[0] * 100;
+				if (tripleIdx !== 4) tempScore += countArray[4] * 50;
+				console.log('one trip');
+				if (tempScore > highScore) highScore = tempScore;
+			}
 		}	
 		//-------
-
-//------four and five of a kind w/ or w/o extra 1's and 5's------//
 		
 		//five of a kind w/ or w/o extra 1s and 5s
 		if (countArray.includes(5)) {
@@ -368,6 +379,7 @@ const game = {
 			if (countArray.indexOf(5) !== 4) {
 				if (countArray[4] === 1) tempScore += 50;
 			}
+			console.log('five of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		} 
 		//-------
@@ -381,14 +393,22 @@ const game = {
 			if (countArray.indexOf(4) !== 4) {
 				tempScore += countArray[4] * 50;
 			}
+			console.log('four of a kind');
 			if (tempScore > highScore) highScore = tempScore;
 		} 
 		//-------
+
+		//loose 5s and 1s
+
+		if (numArray.includes(1) || numArray.includes(5)) {
+			tempScore = (countArray[0] * 100) + (countArray[4] * 50);
+			console.log('fives and ones');
+			if (tempScore > highScore) highScore = tempScore;
+		}
+
+
+
 		
-//-------triples w/ or w/o extra 1's and 5's -------//
-
-
-		console.log(highScore); 
 
 
 
