@@ -274,25 +274,6 @@ const game = {
 				return;
 		}
 	},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	scoreDice(diceArray) {
 		
 		let highScore = 0;				//if dice qualify for scoring in multiple diff tests, when each test is done it will see if the total is bigger than high score. high score will eventully be the result scored to the turn score
@@ -421,52 +402,7 @@ const game = {
 			if (tempScore > highScore) highScore = tempScore;
 		}
 
-		this.rollScore = highScore;
-
-		// let numArray = [];
-		// for (let i = 0; i < diceArray.length; i++) {
-		// 	if (diceArray[i] !== false && diceArray[i] !== null) {
-		// 		numArray.push(diceArray[i].value);
-		// 	}
-		// }
-		// let finalArray = numArray.sort();
-		
-		// if (finalArray[0] === finalArray[5] && finalArray.length === 6) {
-		// 	this.rollScore = 3000;
-		// } else if (finalArray[0] === finalArray[2] && finalArray[3] === finalArray[5] && finalArray.length === 6) {
-		// 	this.rollScore = 2500;
-		// } else if (finalArray[0] === finalArray[1] && finalArray[2] === finalArray[3] && finalArray[4] === finalArray[5] && finalArray.length === 6) {
-		// 	this.rollScore = 1500;
-		// } else if (finalArray[0] === 1 && finalArray[1] === 2 && finalArray[2] === 3 && finalArray[3] === 4 && finalArray[4] === 5 && finalArray.length === 6) {
-		// 	this.rollScore = 1500;
-		// } else if (finalArray[0] === finalArray[4] && finalArray.length === 5) {
-		// 	this.rollScore = 2000;
-		// } else if (finalArray[0] === finalArray[3] && finalArray.length === 4) {
-		// 	this.rollScore = 1000;
-		// } else if (finalArray[0] === 6 && finalArray[2] === 6 && finalArray.length === 3) {
-		// 	this.rollScore = 600;
-		// } else if (finalArray[0] === 5 && finalArray[2] === 5 && finalArray.length === 3) {
-		// 	this.rollScore = 500;
-		// } else if (finalArray[0] === 4 && finalArray[2] === 4 && finalArray.length === 3) {
-		// 	this.rollScore = 400;
-		// } else if (finalArray[0] === 3 && finalArray[2] === 3 && finalArray.length === 3) {
-		// 	this.rollScore = 300;
-		// } else if (finalArray[0] === 2 && finalArray[2] === 2 && finalArray.length === 3) {
-		// 	this.rollScore = 200;
-		// } else if (finalArray[0] === 1 || finalArray[0] === 5) {
-		// 	let tempScore = 0;
-		// 	for (let j = 0; j < finalArray.length; j++) {
-		// 		if (finalArray[j] === 1) {
-		// 			tempScore += 100;
-		// 		} else if (finalArray[j] === 5) {
-		// 			tempScore += 50;
-		// 		}
-		// 	}
-		// 	this.rollScore = tempScore;
-		// } else {
-		// 	// return 'farkle'
-		// 	this.farkle();
-		// }			 
+		this.rollScore = highScore;			 
 	},
 	checkFarkleOnRoll(diceArray) {
 		let numArray = [];			//first part sanitizes incoming array so we are only working with numbers, not objects
@@ -562,12 +498,6 @@ $('body').on('click', (event) => {
 			game.rollDice();
 		}
 	}
-
-	// if (event.target.innerText === 'Bank Points') {
-	// 	if (!game.winner && game.preventBank > 0) {
-	// 		game.bankPoints();
-	// 	}
-	// }
 
 	if (event.target.innerText === 'End Turn') {
 		if (!game.winner) {
