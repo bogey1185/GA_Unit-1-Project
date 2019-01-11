@@ -38,7 +38,7 @@ const game = {
 	diceInPlay: [],			//holds all dice rolled
 	usedDiceArray: [false, false, false, false, false, false],  //temp holds dice selectd by user for scoring
 	diceScored: 0,
-	resetDiceScored: false,
+	resetDiceScored: false,	
 	playerCounter: null,	//tracks what player's turn it is
 	players: [],			//array holding players created by player class 
 	turnScore: 0,
