@@ -22,7 +22,7 @@ On personal computers and Android devices, Farkle is fully functional and does n
 
 ## Contributors
 
-Thanks to Reuben Ayres and James Haff at GA for fielding my questions as I developed this game. Also, a thanks to the other students in my cohort for their continued support and collaboration. Finally, **a thanks to my family, who helped bug-test the game as it was deployed in various stages of development.**
+Thanks to Reuben Ayres and James Haff at GA for fielding my questions as I developed this game. Also, a thanks to the other students in my cohort for their continued support and collaboration. **Finally, a thanks to my family, who helped bug-test the game as it was deployed in various stages of development.**
 
 ## Dev Documentation
 
@@ -35,25 +35,3 @@ The following are features that will be added to the game in the near future:
 * 3D animations
 * Firebase connectivity and web chat functionality for remote play with friends
 * Computer players for solo play
-
-
-<!-- who; what; why; req for run; req for inst; contributors; forthcoming features; links to wireframes/userstories
-	presentation
-	who, what, painpionts solved, why solve pain points, tour of site, challenges overcome, extra stuff, forthcoming features, questions
-
-	markdown syntax
-	# - h1
-	## - h2 etc
-	### h3 etc
-
-	**bold**
-	_italics_
-
-	bullet list: * list item
-				   * inner list item
-				   code ` //code here `
-				   multi line code ``` //code ```
- -->
-
-
- ---
