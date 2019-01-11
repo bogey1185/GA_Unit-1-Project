@@ -2,9 +2,13 @@
 
 This is a simple web deployment of the classic dice game.
 
+## About the Author
+
+I am a student at General Assembly in its Web Development Immersive program. As a GA student, I was tasked with creating a browser game that showcases my current level of skill with HTML5, CSS3, JS, and jquery. I chose Farkle because it is a fun and easy-to-learn game that my family has played together for a long time. In addition to the above languages, this website also deploys VelocityJS animations in its operation.
+
 ## Getting Started/Installation Notes/System Specifications
 
-Unfortunately, iOS support is still forthcoming. However, on personal computers and Android devices, Farkle is fully functional and does not require any special programs. One simply needs an up-to-date browser. Google Chrome is recommended.
+On personal computers and Android devices, Farkle is fully functional and does not require any special programs. One simply needs an up-to-date browser; Google Chrome is recommended. iOS support is forthcoming.
 
 ## How to Play
 
@@ -16,33 +20,21 @@ Unfortunately, iOS support is still forthcoming. However, on personal computers 
   * If the player ends the turn voluntarily, the turn score is added to the leaderboard. If the player farkles (fails to roll any scoreable dice), then turn score points are forfeited, and the turn ends.
 3. Play continues until one player reaches 10,000 points.
 
+## Contributors
 
-Farkle README
+Thanks to Reuben Ayres and James Haff at GA for fielding my questions as I developed this game. Also, a thanks to the other students in my cohort for their continued support and collaboration. Finally, **a thanks to my family, who helped bug-test the game as it was deployed in various stages of development.**
 
-Rules:
---Each player takes turns rolling 6 dice to try and score points.
---After each successful roll, player may set aside scoring dice, and roll remaining dice.
---If player rolls and no scoring combinations occur, player has "farkled" and turn is over.
---If player rolls and scores with all dice, player has "hot dice" and may start over with 6 dice. 
---Score continues to add up as turn continues. Player may stop rolling at any time, and "bank" points to scoreboard, ending player's turn. Farkling also ends player's turn, but if player farkles, all accumulated points are forfeited.
---First player to 10,000 points in bank wins.
+## Dev Documentation
 
+Links to the [wireframe images](https://github.com/bogey1185/GA_Unit-1-Project/tree/d2dcddd53b1cff8877eac4b3bef5d8ebfeb1b63d/images), [wireframe commentary](https://github.com/bogey1185/GA_Unit-1-Project/blob/d2dcddd53b1cff8877eac4b3bef5d8ebfeb1b63d/wireframes.md), and [user stories](https://github.com/bogey1185/GA_Unit-1-Project/blob/d2dcddd53b1cff8877eac4b3bef5d8ebfeb1b63d/user-stories.md) utilized in development of this game are available should you wish to review them.
 
+## Upcoming Features
 
- --- 
-
-things to add--
-- iphone/ipad support
-- 3d animated dice rolling
-- web chat and firebase connectivity for remote play with friends.
-- computer players
-
-
-
- ---
-Ideas for extra non-standard features (time permitting):
-	--player may customize parameters for win (ie: points needed to win; points scored for each dice combination).
-	--"Hall of Fame" -- to save top 10 longest hot dice streaks.
+The following are features that will be added to the game in the near future:
+* iOS Support
+* 3D animations
+* Firebase connectivity and web chat functionality for remote play with friends
+* Computer players for solo play
 
 
 <!-- who; what; why; req for run; req for inst; contributors; forthcoming features; links to wireframes/userstories
@@ -65,26 +57,3 @@ Ideas for extra non-standard features (time permitting):
 
 
  ---
-
-<!-- 
-
- Tetris README.
-
- Rules: 
-
- --Randomized blocks will generate, and will need to be placed on game board. 
- --WHen a line is complete, it will disappear, and all remaining blocks shift down. Score is incremented +1 for each line completed. Game continues until blocks overflow top of gameboard.
-
- User Stories for Tetris:
-
- --User presses start button, which begins game on level 1.
- --Every X minutes, the game will "level up". Blocks will generate faster, and move down the board faster. Music and background will change.
- --Player will use arrow keys to control and rotate the blocks as they appear.
- --Player will only be able to control one block at a time. Once the controlled block is placed, control will transfer to next lowest block. 
- --Game gets infinitely harder. Each level is a little faster than the last. Player lasts as long as possible. 
- --Upon completion of game, player is presented with new game button
-
----
-Ideas for extra features (time permitting):
-	--"Hall of Fame" tracking top ten scores. Allows user to input initials.
- -->
