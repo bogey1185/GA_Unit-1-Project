@@ -1,4 +1,4 @@
- # Commentary on [wireframe](https://github.com/bogey1185/GA_Unit-1-Project/tree/master/images) photos
+ # Commentary on [wireframe photos](https://github.com/bogey1185/GA_Unit-1-Project/tree/master/images) 
 
  1. Farkle1: Player presented with start game button.
  2. Farkle2: Player given 4 buttons, to select number of players. (change: now input field)
