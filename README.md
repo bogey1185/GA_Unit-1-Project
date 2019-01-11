@@ -1,5 +1,13 @@
 # FARKLE: a dice game
 
+This is a simple web deployment of the classic dice game.
+
+## Getting Started/Installation Notes/System Specifications
+
+Unfortunately, iOS support is still forthcoming. However, on personal computers and Android devices, Farkle is fully functional and does not require any special programs. One simply needs an up-to-date browser. Google Chrome is recommended.
+
+## How to Play
+
 
 
 
@@ -17,6 +25,10 @@ Rules:
 
  --- 
 
+things to add--
+- iphone/ipad support
+- 3d animated dice rolling
+- web chat and firebase connectivity for remote play with friends.
 
 
 
