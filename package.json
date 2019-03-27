@@ -1,0 +1,23 @@
+{
+  "name": "u1-project",
+  "version": "1.0.0",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.9.0"
+  },
+  "description": "This is a simple web deployment of the classic dice game.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bogey1185/GA_Unit-1-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bogey1185/GA_Unit-1-Project/issues"
+  },
+  "homepage": "https://github.com/bogey1185/GA_Unit-1-Project#readme"
+}
